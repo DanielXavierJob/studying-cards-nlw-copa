@@ -12,20 +12,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Card NLW Copa</title>
     <link rel="stylesheet" href="./style.css" />
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"
+    ></script>
   </head>
   <body>
     <header>
       <img src="./assets/logo.svg" alt="Logo da NLW Copa" />
     </header>
 
-    <div class="card" onclick="changeCard(event)">
-      <img src="https://github.com/maykbrito.png" alt="Foto de Mayk Brito" />
-      <div class="info">
-        <h1>Mayk Brito</h1>
-        <p>Student at Rocketseat</p>
+    <div class="card on-front" onclick="changeCard(event, this)" style="display: none">
+      <div class="cols">
+        <div class="stack">
+          <div>
+            <img
+              src="./assets/símbolo.svg"
+              alt="Foto de Mayk Brito"
+              class="simbolo"
+            />
+          </div>
+          <div class="stack-items">
+            <img src="./assets/Vector.svg" class="stack-item" />
+            <img src="./assets/Vector.svg" class="stack-item" />
+            <img src="./assets/Vector.svg" class="stack-item" />
+          </div>
+        </div>
+        <img src="https://github.com/maykbrito.png" alt="Foto de Mayk Brito" id="avatarID" />
+
+        <div class="project">
+          <p id="projectMark">Daniel</p>
+        </div>
+        <div class="info">
+          <h1 id="nameID">Mayk Brito</h1>
+          <p id="bioID">Student at Rocketseat</p>
+        </div>
       </div>
+      <img src="./assets/bg-ignite-2.svg" class="img-background" />
     </div>
 
+    <div
+      class="card on-back"
+      onclick="changeCard(event, this)"
+      style="display: none"
+    >
+      <div class="cols" >
+        <div id="canvas" style="margin-top: 7rem">
+        </div>
+        <div
+          class="info"
+          style="
+           margin-top: 1rem;
+    padding: 0px 87px 0px 26px;
+    margin-left: 43px;
+    text-align: center;
+          "
+        >
+          <h1 style="text-shadow: 3px 2px 2px black;
+          font-style: italic;
+          width: 11rem;" id="TextMark">
+            "A Batalha só se torna impossivel quando você deixa de lutar"
+          </h1>
+        </div>
+      </div>
+      <img src="./assets/Card=Ignite.svg" class="img-background" />
+    </div>
     <script src="./script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
   </body>
 </html>
