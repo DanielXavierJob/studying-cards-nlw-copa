@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card NLW Copa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Card NLW Copa</title>
     <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <script
       type="text/javascript"
       src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"
@@ -22,7 +30,7 @@
       <img src="./assets/logo.svg" alt="Logo da NLW Copa" />
     </header>
 
-    <div class="card on-front" onclick="changeCard(event, this)" style="display: none">
+    <div class="card on-front" style="display: none">
       <div class="cols">
         <div class="stack">
           <div>
@@ -32,45 +40,42 @@
               class="simbolo"
             />
           </div>
-          <div class="stack-items">
-            <img src="./assets/Vector.svg" class="stack-item" />
-            <img src="./assets/Vector.svg" class="stack-item" />
-            <img src="./assets/Vector.svg" class="stack-item" />
-          </div>
+          <div class="stack-items"></div>
         </div>
-        <img src="https://github.com/maykbrito.png" alt="Foto de Mayk Brito" id="avatarID" />
+        <img
+          src="https://github.com/maykbrito.png"
+          alt="Foto de Mayk Brito"
+          id="avatarID"
+        />
 
-        <div class="project">
-          <p id="projectMark">Daniel</p>
-        </div>
         <div class="info">
           <h1 id="nameID">Mayk Brito</h1>
-          <p id="bioID">Student at Rocketseat</p>
+          <p id="projectMark">Student at Rocketseat</p>
         </div>
       </div>
       <img src="./assets/bg-ignite-2.svg" class="img-background" />
     </div>
 
-    <div
-      class="card on-back"
-      onclick="changeCard(event, this)"
-      style="display: none"
-    >
-      <div class="cols" >
-        <div id="canvas" style="margin-top: 7rem">
-        </div>
+    <div class="card on-back" style="display: none">
+      <div class="cols">
+        <div id="canvas" style="margin-top: 7rem"></div>
         <div
           class="info"
           style="
-           margin-top: 1rem;
-    padding: 0px 87px 0px 26px;
-    margin-left: 43px;
-    text-align: center;
+            margin-top: 1rem;
+            padding: 0px 87px 0px 26px;
+            margin-left: 43px;
+            text-align: center;
           "
         >
-          <h1 style="text-shadow: 3px 2px 2px black;
-          font-style: italic;
-          width: 11rem;" id="TextMark">
+          <h1
+            style="
+              text-shadow: 3px 2px 2px black;
+              font-style: italic;
+              width: 11rem;
+            "
+            id="TextMark"
+          >
             "A Batalha só se torna impossivel quando você deixa de lutar"
           </h1>
         </div>
@@ -78,6 +83,10 @@
       <img src="./assets/Card=Ignite.svg" class="img-background" />
     </div>
     <script src="./script.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.3.min.js"
+      integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

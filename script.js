@@ -1,15 +1,52 @@
-let isIgnite = false;
+let containsCard = false;
+let isFront = true;
+let github = localStorage.getItem("github_profile"),
+  projectMarkValue = localStorage.getItem("projectMarkValue"),
+  TextMarkValue = localStorage.getItem("textMarkValue");
 document.addEventListener("DOMContentLoaded", async () => {
-  const github = promptCaller("The github profile: ", {
-    required: true,
-    refresh: true,
-  });
-  const projectMarkValue = promptCaller("The Project specification: ")
-  const TextMarkValue = promptCaller("The text fisolofy: ")
-  await generateCard(github, projectMarkValue, TextMarkValue);
+  if (github != null) {
+    await generateCard(github, projectMarkValue, TextMarkValue);
+  }
 });
 
-function promptCaller(message, { required = false, refresh  = false} = {}) {
+alert(
+  "Pressione ctrl+X para criar um novo CARD, depois pressione ctrl+I para criar uma icone, ou pressione ctrl+M para ver o lado de trás do cartão"
+);
+document.addEventListener("keyup", async (keyhandler) => {
+  console.log(keyhandler.key, keyhandler.ctrlKey);
+  if (keyhandler.key.toUpperCase() == "X" && keyhandler.ctrlKey) {
+    github = promptCaller("Qual o usuario do github? ") ?? github;
+    projectMarkValue =
+      promptCaller("Especifique sua area: ") ?? projectMarkValue;
+    TextMarkValue = promptCaller("Um texto filosofico: ") ?? TextMarkValue;
+    localStorage.setItem("github_profile", github);
+    localStorage.setItem("projectMarkValue", projectMarkValue);
+    localStorage.setItem("textMarkValue", TextMarkValue);
+    containsCard = true;
+    await generateCard(github, projectMarkValue, TextMarkValue);
+  } else if (
+    keyhandler.key.toUpperCase() == "I" &&
+    keyhandler.ctrlKey &&
+    github != null
+  ) {
+    const lang = promptCaller(
+      "Qual a stack? Caso ela não exista, você pode clicar em cima do icone que foi criado para excluir"
+    );
+    addLanguage(lang);
+  } else if (
+    keyhandler.key.toUpperCase() == "M" &&
+    keyhandler.ctrlKey &&
+    github != null
+  ) {
+    changeCard();
+  }
+
+  keyhandler.stopPropagation();
+  keyhandler.preventDefault();
+  return false;
+});
+
+function promptCaller(message, { required = false, refresh = false } = {}) {
   const call = prompt(message);
   if (!call && required) {
     alert(`Is necessary than Prompt: ${message}, contains a value.`);
@@ -21,15 +58,22 @@ function promptCaller(message, { required = false, refresh  = false} = {}) {
   }
 }
 
-function changeCard(event, clicked) {
-  if (clicked.attributes.class.value.includes("on-back")) {
-    clicked.style.display = "none";
-    document.getElementsByClassName("on-front")[0].style.display =
-      "inline-block";
+function changeCard() {
+  
+  if (!isFront) {
+    isFront = true;
+    animateCSS('.on-back', "flipOutY").then((message) => {
+      document.getElementsByClassName("on-back")[0].style.display = "none";
+      document.getElementsByClassName("on-front")[0].style.display = "inline-block";
+      animateCSS('.on-front', "flipInY")
+    });
   } else {
-    clicked.style.display = "none";
-    document.getElementsByClassName("on-back")[0].style.display =
-      "inline-block";
+    isFront = false;
+    animateCSS('.on-front', "flipOutY").then((message) => {
+      document.getElementsByClassName("on-front")[0].style.display = "none";
+      document.getElementsByClassName("on-back")[0].style.display = "inline-block";
+      animateCSS('.on-back', "flipInY")
+    });
   }
 }
 
@@ -89,6 +133,7 @@ function createQR(link) {
     },
   });
 
+  document.getElementById("canvas").innerHTML = "";
   qrCode.append(document.getElementById("canvas"));
 }
 
@@ -97,7 +142,7 @@ async function generateCard(
   projectMarkValue = "Developer",
   TextMarkValue = "Não há nada para mostrar aqui"
 ) {
-  const { bio, name, avatar_url, html_url, ...args } = await fetch(
+  const { name, avatar_url, html_url, ...args } = await fetch(
     `https://api.github.com/users/${github}`
   )
     .then((response) => response.json())
@@ -105,13 +150,13 @@ async function generateCard(
       return response;
     });
   nameID.innerHTML = name;
-  bioID.innerHTML = bio.replace(/(:\w+:)/gim, "");
   avatarID.attributes.src.value = avatar_url;
   projectMark.innerHTML = projectMarkValue ?? "Developer";
-  TextMark.innerHTML =
-  TextMarkValue ? TextMarkValue.length < 200
+  TextMark.innerHTML = TextMarkValue
+    ? TextMarkValue.length < 200
       ? `"${TextMarkValue}"`
-      : `"${TextMarkValue.slice(0, 200)} ..."` : "Não há nada para mostrar aqui";
+      : `"${TextMarkValue.slice(0, 200)} ..."`
+    : "Não há nada para mostrar aqui";
   createQR(html_url);
   document.getElementsByClassName("on-front")[0].style.display = "inline-block";
 }
@@ -121,3 +166,55 @@ function alterColor(deg) {
     element.style.filter = `hue-rotate(${deg}deg)`;
   }
 }
+
+function addLanguage(lang) {
+  document.getElementsByClassName(
+    "info"
+  )[0].style.marginLeft = "49px";
+  document.getElementsByClassName(
+    "stack-items"
+  )[0].innerHTML += `<i class="devicon-${lang}-plain" class="stack-item" onClick="removeIcon(this)"></i>`;
+  if (
+    window
+      .getComputedStyle(
+        document.getElementsByClassName(`devicon-${lang}-plain`)[0],
+        "before"
+      )
+      .getPropertyValue("content") == "none"
+  ) {
+    removeIcon(document.getElementsByClassName(`devicon-${lang}-plain`)[0]);
+    alert("Este icone não existe");
+    const langs = promptCaller(
+      "Qual a stack? Caso ela não exista, você pode clicar em cima do icone que foi criado para excluir"
+    );
+    langs && addLanguage(langs);
+  }
+}
+
+function removeIcon(el) {
+  el.remove();
+  if(document.getElementsByClassName(
+    "stack-items"
+  )[0].length == 0){
+    document.getElementsByClassName(
+      "info"
+    )[0].style.marginLeft = "102px";
+  }
+}
+const animateCSS = (element, animation, prefix = 'animate__') =>
+  // We create a Promise and return it
+  new Promise((resolve, reject) => {
+    const animationName = `${prefix}${animation}`;
+    const node = document.querySelector(element);
+
+    node.classList.add(`${prefix}animated`, animationName);
+
+    // When the animation ends, we clean the classes and resolve the Promise
+    function handleAnimationEnd(event) {
+      event.stopPropagation();
+      resolve('Animation ended');
+      node.classList.remove(`${prefix}animated`, animationName);
+    }
+
+    node.addEventListener('animationend', handleAnimationEnd, {once: true});
+  });

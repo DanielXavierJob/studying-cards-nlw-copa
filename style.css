@@ -63,7 +63,7 @@ header {
 }
 .stack-items {
   direction: rtl;
-  width: 9rem;
+  font-size: 20px;
   padding: 0px 5px 0px 17px;
   justify-content: end;
   display: grid;
@@ -88,10 +88,10 @@ header {
   margin-top: 0px
 }
 .info {
-  margin-top: 24px;
+  margin-top: 90px;
   color: white;
-  margin-left: 70px;
-  text-align: left;
+  margin-left: 102px;
+  text-align: center;
 }
 
 .info h1 {
